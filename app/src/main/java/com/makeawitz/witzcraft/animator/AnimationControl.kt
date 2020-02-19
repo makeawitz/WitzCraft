@@ -76,6 +76,11 @@ object AnimationControl {
     }
 
     fun fadeInEnterFromBottom(view: View, duration: Long = defaultDuration, onComplete: () -> Unit = {}) {
+        with(view) {
+            alpha = 0f
+            visibility = View.VISIBLE
+            bringToFront()
+        }
         val animationSet = AnimationSet(true)
         animationSet.interpolator = LinearInterpolator()
         animationSet.setAnimationListener(object : Animation.AnimationListener{
@@ -89,11 +94,6 @@ object AnimationControl {
             }
 
             override fun onAnimationStart(animation: Animation?) {
-                with(view) {
-                    alpha = 0f
-                    visibility = View.VISIBLE
-                    bringToFront()
-                }
             }
         })
 

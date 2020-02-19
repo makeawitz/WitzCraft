@@ -103,24 +103,26 @@ class PinBlock @JvmOverloads constructor(
     }
 
     fun showPad() {
-        if (!keyPadShown && !locked) {
-            locked = true
-            root.addView(numericPad)
-            AnimationControl.fadeInEnterFromBottom(numericPad.pad, numpadDuration) {
-                keyPadShown = true
-                locked = false
-            }
+        if (keyPadShown || locked) {
+            return
+        }
+        locked = true
+        root.addView(numericPad)
+        AnimationControl.fadeInEnterFromBottom(numericPad.pad, numpadDuration) {
+            keyPadShown = true
+            locked = false
         }
     }
 
     fun hidePad() {
-        if (keyPadShown && !locked) {
-            locked = true
-            AnimationControl.fadeOutExitToBottom(numericPad.pad, numpadDuration) {
-                keyPadShown = false
-                locked = false
-                root.removeView(numericPad)
-            }
+        if (!keyPadShown || locked) {
+            return
+        }
+        locked = true
+        AnimationControl.fadeOutExitToBottom(numericPad.pad, numpadDuration / 2) {
+            keyPadShown = false
+            locked = false
+            root.removeView(numericPad)
         }
     }
 
@@ -132,7 +134,6 @@ class PinBlock @JvmOverloads constructor(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            visibility = View.GONE
 
             val padHeight = (screenMetrics.screenHeight * 0.32).toInt()
             val padParams = LayoutParams(
@@ -142,6 +143,7 @@ class PinBlock @JvmOverloads constructor(
             padParams.addRule(ALIGN_PARENT_BOTTOM)
             with(pad) {
                 layoutParams = padParams
+                visibility = View.GONE
                 setBackgroundColor(ContextCompat.getColor(context, R.color.buttonPadGray))
             }
             addView(pad)

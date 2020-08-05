@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
@@ -75,7 +76,7 @@ class PinBlock @JvmOverloads constructor(
         slots[pin.length].mask = true
         pin += char
         if (pin.length == slots.size) {
-            Handler().postDelayed({
+            Handler(Looper.getMainLooper()).postDelayed({
                 onFilled.invoke()
                 clearPin()
                 hidePad()

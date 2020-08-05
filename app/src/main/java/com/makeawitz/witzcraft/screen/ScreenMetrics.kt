@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
 import android.util.TypedValue
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 
 class ScreenMetrics(val context: Context) {
@@ -15,9 +14,8 @@ class ScreenMetrics(val context: Context) {
     val dpi: Int
 
     init {
-        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val metrics = DisplayMetrics()
-        windowManager.defaultDisplay.getRealMetrics(metrics)
+        context.display?.getRealMetrics(metrics)
         screenWidth = metrics.widthPixels
         screenRawHeight = metrics.heightPixels
         screenHeight = metrics.heightPixels - getActionBarHeight() - getStatusBarHeight() - getNavigationBarHeight()
@@ -49,14 +47,14 @@ class ScreenMetrics(val context: Context) {
     }
 
     fun hasSoftKeys(): Boolean {
-        val d = (context as Activity).windowManager.defaultDisplay
+        val d = context.display
         val realDisplayMetrics = DisplayMetrics()
-        d.getRealMetrics(realDisplayMetrics)
+        d?.getRealMetrics(realDisplayMetrics)
 
         val realHeight = realDisplayMetrics.heightPixels
         val realWidth = realDisplayMetrics.widthPixels
         val displayMetrics = DisplayMetrics()
-        d.getMetrics(displayMetrics)
+        d?.getRealMetrics(displayMetrics)
 
         val displayHeight = displayMetrics.heightPixels
         val displayWidth = displayMetrics.widthPixels

@@ -8,6 +8,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.view.PixelCopy
 import android.view.View
 
@@ -49,7 +50,7 @@ object ScreenCapture {
                             }
                         }
                     },
-                    Handler()
+                    Handler(Looper.getMainLooper())
                 )
             } catch (e: IllegalArgumentException) {
                 e.printStackTrace()

@@ -75,6 +75,100 @@ object AnimationControl {
         }).setDuration(duration).setInterpolator(LinearInterpolator()).translationY(-view.height.toFloat()).start()
     }
 
+    fun exitToLeft(view: View, duration: Long = defaultDuration, onComplete: () -> Unit = {}) {
+        view.animate().setListener(object : AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                view.visibility = View.GONE
+                view.translationX = 0f
+                onComplete()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+
+            }
+        }).setDuration(duration).setInterpolator(LinearInterpolator()).translationX(-view.width.toFloat()).start()
+    }
+
+    fun exitToRight(view: View, duration: Long = defaultDuration, onComplete: () -> Unit = {}) {
+        view.animate().setListener(object : AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                view.visibility = View.GONE
+                view.translationX = 0f
+                onComplete()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+
+            }
+        }).setDuration(duration).setInterpolator(LinearInterpolator()).translationX(view.width.toFloat()).start()
+    }
+
+    fun enterFromLeft(view: View, duration: Long = defaultDuration, onComplete: () -> Unit = {}) {
+        with(view) {
+            translationX = -view.width.toFloat()
+            visibility = View.VISIBLE
+            bringToFront()
+        }
+        view.animate().setListener(object : AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                onComplete()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+
+            }
+        }).setDuration(duration).setInterpolator(LinearInterpolator()).translationX(0f).start()
+    }
+
+    fun enterFromRight(view: View, duration: Long = defaultDuration, onComplete: () -> Unit = {}) {
+        with(view) {
+            translationX = view.width.toFloat()
+            visibility = View.VISIBLE
+            bringToFront()
+        }
+        view.animate().setListener(object : AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                onComplete()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+
+            }
+        }).setDuration(duration).setInterpolator(LinearInterpolator()).translationX(0f).start()
+    }
+
     fun fadeInEnterFromBottom(view: View, duration: Long = defaultDuration, onComplete: () -> Unit = {}) {
         with(view) {
             alpha = 0f

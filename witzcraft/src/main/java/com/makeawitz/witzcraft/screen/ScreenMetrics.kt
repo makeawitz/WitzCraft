@@ -2,8 +2,10 @@ package com.makeawitz.witzcraft.screen
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 
 class ScreenMetrics(val context: Context) {
@@ -14,8 +16,13 @@ class ScreenMetrics(val context: Context) {
     val dpi: Int
 
     init {
+        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val metrics = DisplayMetrics()
-        context.display?.getRealMetrics(metrics)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            context.display?.getRealMetrics(metrics)
+        } else {
+            windowManager.defaultDisplay.getRealMetrics(metrics)
+        }
         screenWidth = metrics.widthPixels
         screenRawHeight = metrics.heightPixels
         screenHeight = metrics.heightPixels - getActionBarHeight() - getStatusBarHeight() - getNavigationBarHeight()
@@ -47,14 +54,22 @@ class ScreenMetrics(val context: Context) {
     }
 
     fun hasSoftKeys(): Boolean {
-        val d = context.display
+        val d = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            context.display
+        } else {
+            (context as Activity).windowManager.defaultDisplay
+        }
         val realDisplayMetrics = DisplayMetrics()
         d?.getRealMetrics(realDisplayMetrics)
 
         val realHeight = realDisplayMetrics.heightPixels
         val realWidth = realDisplayMetrics.widthPixels
         val displayMetrics = DisplayMetrics()
-        d?.getRealMetrics(displayMetrics)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            d?.getRealMetrics(displayMetrics)
+        } else {
+            d?.getMetrics(displayMetrics)
+        }
 
         val displayHeight = displayMetrics.heightPixels
         val displayWidth = displayMetrics.widthPixels
